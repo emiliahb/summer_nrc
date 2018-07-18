@@ -9,19 +9,19 @@ def get_status():
 
 
 def login():
-    requests.post('http://10.42.0.1:5000/login/kz912/donuts')
-    print(get_status())
+    r = requests.post('http://10.42.0.1:5000/login/kz912/donuts')
+    print(r.text)
 
 
 def reset():
-    requests.post('http://10.42.0.1:5000/game/kz912/donuts/reset')
-    print(get_status())
+    r = requests.post('http://10.42.0.1:5000/game/kz912/donuts/reset')
+    print(r.text)
 
 
 def tick():
     requests.post('http://10.42.0.1:5000/game/kz912/donuts/tick')
     print(get_status())
-    if len(get_status()['number_of_options']) > 1:
+    if get_status()['number_of_options'] > 1:
         withOptions.append([get_status()['player_position'], get_status()['options']])
         index = input("Direction? ")
         direct(index)
@@ -30,6 +30,7 @@ def tick():
 def direct(index):
     requests.post('http://10.42.0.1:5000/game/kz912/donuts/select_direction/' + str(index))
     print(get_status())
+    tick()
 
 
 def hold():
@@ -43,11 +44,9 @@ def stop_hold():
 
 
 def main():
-    login()
-    #while get_status()['bot_visible'] != True and get_status()['rounds_remaining'] > 1000:
-        #tick()
-    print("bye")
     reset()
+    #print("bye")
+
 
 
 if __name__ == "__main__":
