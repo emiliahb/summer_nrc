@@ -84,7 +84,20 @@ def actually_seen():
                 actually_seen()
             else:
                 tick()
-
+#
+# def catch():
+#     #keep going until you reach heart/lungs, (optional choose path if you have choices) then once you see the bot, go to heart_3 and stop
+#
+#     while(get_status()['player_position'].find("Heart") == -1 or get_status()['player_position'].find("Lungs") == -1):
+#         tick()
+#
+#     while(get_status()['bot_visible'] == False):
+#         tick()
+#
+#     while(get_status()['player_position'] != "Heart_3"):
+#         tick()
+#
+#     hold() #bot should run into player at this point
 
 
 def main():
