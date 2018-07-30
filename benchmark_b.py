@@ -20,12 +20,8 @@ def reset():
 
 
 def tick():
-
     requests.post('http://10.42.0.1:5000/game/kz912/donuts/tick')
     print(get_status())
-
-    if (get_status()['player_position'] == "Heart_3"):
-        return None
 
     if get_status()['number_of_options'] > 1:
         withOptions.append([get_status()['player_position'], get_status()['options']])
@@ -38,8 +34,7 @@ def tick():
                 direct(index)
                 return
 
-
-        index = random.randint(0, get_status()['number_of_options']-1)
+        index = random.randint(0, get_status()['number_of_options'] - 1)
         direct(index)
 
 
@@ -58,47 +53,16 @@ def stop_hold():
     requests.post('http://10.42.0.1:5000/game/kz912/donuts/stop_holding')
     print(get_status())
 
-"""def seen():
-    turns_held = 0
-    while turns_held < 7 and get_status()['bot_visible'] == True:
-        if get_status()['options'] == get_status()['bot_location'] or get_status()['player_position'] != 'Heart_3':
-            stop_hold()
-            tick()
-        elif get_status()['player_position'] == get_status()['bot_location']:
-            return
-        hold()
-        tick()
-        turns_held += 1
-    stop_hold()"""
 
-"""def actually_seen():
-    if get_status()['player_position'] == "Heart_3" and get_status()['bot_location'] == "Heart_0":
-        hold()
-        while get_status()['player_position'] != get_status()['bot_location']:
-            tick()
-        stop_hold()
-        return
-    else:
-        while(get_status()['player_position'] != get_status()['bot_location']):
-            if get_status()['player_position'] == "Heart_3":
-                actually_seen()
-            else:
-                tick()"""
-#
 def catch():
-#     #keep going until you reach heart/lungs, (optional choose path if you have choices) then once you see the bot, go to heart_3 and stop
-#
-#    while get_status()['player_position'].find("Heart") == -1 and get_status()['player_position'].find("Lung") == -1:
-#        print("1")
-#       tick()
-#
+    """keep going until you see the bot, go to LungC_0 and stop"""
     while get_status()['bot_visible'] == False:
         tick()
 
     while get_status()['player_position'] != "LungC_0":
         tick()
 
-    hold() #bot should run into player at this point
+    hold()  # bot should run into player at this point
 
     while get_status()['bot_location'] != "LungC_0 " and get_status()["score"] != 1:
         tick()
@@ -111,16 +75,12 @@ def catch():
 def main():
     reset()
     login()
-    #while get_status()['bot_visible'] != True: #and get_status()['player_position'] != "Heart_3":
-        #tick()
-        #if tick() is None:
-            #break
-    #actually_seen()
     catch()
+    print("Succeed! Score:", get_status()["score"])
     reset()
     login()
     catch()
-    #print(withOptions)
+    print("Succeed! Score:", get_status()["score"])
     print("bye")
 
 
